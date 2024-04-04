@@ -9,18 +9,6 @@ services:
       - front_end
     volumes:
       - ./nginx_config.conf:/etc/nginx/nginx.conf
-  postgres_production:
-    container_name: 'to-do-postgres-production'
-    image: 'postgres:latest'
-    restart: always
-    ports:
-      - '5432:5432'
-    environment:
-      - 'POSTGRES_USER=username'
-      - 'POSTGRES_DB=to_do'
-      - 'POSTGRES_PASSWORD=password'
-    expose:
-      - 5432
   redis_production:
     container_name: 'to-do-redis-production'
     image: 'redis:5.0.5'
@@ -36,7 +24,6 @@ services:
       - "8000:8000"
     links:
       - redis_production
-      - postgres_production
     expose:
       - 8000
     volumes:

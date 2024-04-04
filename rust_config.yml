@@ -1,4 +1,4 @@
-DB_URL: postgresql://username:password@postgres_production/to_do
+DB_URL: postgresql://username:password@terraform-20240404033338831900000001.cfep8jatnm3f.us-west-2.rds.amazonaws.com:5432/to_do
 EXPIRE_MINUTES: 120
 REDIS_URL: redis://redis_production/
 SECRET_KEY: secret

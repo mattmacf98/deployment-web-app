@@ -28,17 +28,17 @@ produce_output = Popen(f'cd "{DIRECTORY_PATH}" && terraform output -json > "{DIR
 with open(f'{DIRECTORY_PATH}/output.json', "r") as file:
     data = json.loads(file.read())
 
-# database_url = f"postgresql://{db_data['user']}:{db_data['password']}@{data['db_endpoint']['value'][0]}/to_do"
-# with open("./database.txt", "w") as file:
-#     file.write("DATABASE_URL=" + database_url)
-#
-# with open("./rust_config.yml") as file:
-#     config = yaml.load(file, Loader=yaml.FullLoader)
-#
-# config["DB_URL"] = database_url
-#
-# with open("./rust_config.yml", "w") as file:
-#     yaml.dump(config, file, default_flow_style=False)
+database_url = f"postgresql://{db_data['user']}:{db_data['password']}@{data['db_endpoint']['value'][0]}/to_do"
+with open("./database.txt", "w") as file:
+    file.write("DATABASE_URL=" + database_url)
+
+with open("./rust_config.yml") as file:
+    config = yaml.load(file, Loader=yaml.FullLoader)
+
+config["DB_URL"] = database_url
+
+with open("./rust_config.yml", "w") as file:
+    yaml.dump(config, file, default_flow_style=False)
 
 
 server_ip = data["ec2_global_ips"]["value"][0][0]
@@ -49,6 +49,3 @@ print("attempting to enter server")
 
 build_process = Popen(f'cd "{DIRECTORY_PATH}" && sh ./run_build.sh {server_ip} {args.u} {args.p}', shell=True)
 build_process.wait()
-
-
-#  CURRENT ISSUE:  web app doesn't seem to properly take traffic when diesel is used => try deploy with embedded db first

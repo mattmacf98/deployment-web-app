@@ -7,39 +7,39 @@ provider "aws" {
   region = "us-west-2"
 }
 
-#resource "aws_security_group" "db_instance_sg" {
-#  name        = "db_instance_sg-sg"
-#  description = "Security group for RDS instance"
-#
-#  ingress {
-#    from_port   = 5432
-#    to_port     = 5432
-#    protocol    = "tcp"
-#    cidr_blocks = ["0.0.0.0/0"]
-#  }
-#
-#  egress {
-#    from_port   = 0
-#    to_port     = 0
-#    protocol    = "-1"
-#    cidr_blocks = ["0.0.0.0/0"]
-#  }
-#}
-#
-#resource "aws_db_instance" "main_db" {
-#  instance_class = "db.t3.micro"
-#  allocated_storage = 5
-#  engine = "postgres"
-#  username = var.db_username
-#  password = var.db_password
-#  vpc_security_group_ids = [aws_security_group.db_instance_sg.id]
-#  db_name = "to_do"
-#  publicly_accessible = true
-#  skip_final_snapshot = true
-#  tags = {
-#    Name = "to-do production database"
-#  }
-#}
+resource "aws_security_group" "db_instance_sg" {
+  name        = "db_instance_sg-sg"
+  description = "Security group for RDS instance"
+
+  ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_db_instance" "main_db" {
+  instance_class = "db.t3.micro"
+  allocated_storage = 5
+  engine = "postgres"
+  username = var.db_username
+  password = var.db_password
+  vpc_security_group_ids = [aws_security_group.db_instance_sg.id]
+  db_name = "to_do"
+  publicly_accessible = true
+  skip_final_snapshot = true
+  tags = {
+    Name = "to-do production database"
+  }
+}
 
 resource "aws_security_group" "instance_sg" {
   name        = "instance-sg"
@@ -88,6 +88,6 @@ output "ec2_global_ips" {
   value = [aws_instance.deployment_server.*.public_ip]
 }
 
-#output "db_endpoint" {
-#  value = aws_db_instance.main_db.*.endpoint
-#}
+output "db_endpoint" {
+  value = aws_db_instance.main_db.*.endpoint
+}
