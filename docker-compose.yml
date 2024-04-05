@@ -4,11 +4,14 @@ services:
     image: 'nginx:latest'
     ports:
       - "80:80"
+      - "443:443"
     links:
       - rust_app
       - front_end
     volumes:
       - ./nginx_config.conf:/etc/nginx/nginx.conf
+      - ./self.crt:/etc/nginx/ssl/self.crt
+      - ./self.key:/etc/nginx/ssl/self.key
   postgres_production:
     container_name: 'to-do-postgres-production'
     image: 'postgres:latest'
